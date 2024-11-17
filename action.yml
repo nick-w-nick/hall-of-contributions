@@ -4,7 +4,6 @@ inputs:
   github_token:
     description: 'GitHub token to use for fetching data from GitHub and updating the README'
     required: true
-    default: ${{ secrets.github.token }}
   configuration_file:
     description: 'Configuration file for the action'
     required: true
