@@ -1,0 +1,19 @@
+name: Test Action
+
+on:
+    workflow_dispatch:
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Checkout repository (just in case, although the action handles it)
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Step 2: Use the action from your local repository
+      - name: Test Action
+        uses: ./action  # Relative path to your local action directory
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
