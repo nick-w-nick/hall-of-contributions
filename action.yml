@@ -32,3 +32,5 @@ runs:
       run: node dist/index.js  # Run the custom script to modify files like README.md
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}  # Pass the GitHub token as an environment variable
+      with:
+        configuration_file: ${{ inputs.configuration_file }}  # Pass the configuration file as an argument
