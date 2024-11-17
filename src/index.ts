@@ -38,6 +38,8 @@ async function run() {
         
         
         const configurationFilePath = core.getInput('configuration_file');
+        console.log('config env path', process.env.CONFIGURATION_FILE);
+        
         console.log('configuration file path:', configurationFilePath);
         
         const configuration = getConfiguration(configurationFilePath);
