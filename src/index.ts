@@ -1,12 +1,12 @@
 import core from '@actions/core';
 // import github from '@actions/github';
 import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { resolve } from 'path';
 import { ConfigurationEntry } from './models.js';
 
 function getConfiguration(path: string): ConfigurationEntry[] | undefined {
     try {
-        const filePath = join(process.cwd(), path);
+        const filePath = resolve(process.cwd(), path);
         if (existsSync(filePath)) {
             const fileData = readFileSync(filePath, 'utf8').toString();
             
