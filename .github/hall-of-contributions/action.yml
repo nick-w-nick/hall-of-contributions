@@ -1,0 +1,14 @@
+name: 'Hall of Contributions'
+description: 'Automatically updates your README with a list of your open source contributions'
+inputs:
+  github_token:
+    description: 'GitHub token to use for fetching data from GitHub and updating the README'
+    required: true
+    default: ${{ secrets.github.token }}
+  configuration_file:
+    description: 'Configuration file for the action'
+    required: true
+    default: '.github/hall-of-contributions.json'
+runs:
+  using: 'node20'
+  main: 'index.js'
