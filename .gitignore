@@ -2,5 +2,3 @@ node_modules
 dist
 .env
 .eslintcache
-.github/hall-of-contributions/*.js
-.github/hall-of-contributions/*.js.map

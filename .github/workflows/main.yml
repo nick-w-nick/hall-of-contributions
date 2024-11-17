@@ -26,6 +26,6 @@ jobs:
         run: ls -la
       
       - name: Run Local Image Updater Action
-        uses: ./hall-of-contributions  # Reference the local action
+        uses: ./action.yml  # Reference the local action
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

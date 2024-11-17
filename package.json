@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "type": "module",
-    "main": ".github/hall-of-contributions/index.js",
+    "main": "dist/index.js",
     "types": "dist/types",
     "scripts": {
         "build": "rm -rf dist && tsc",
