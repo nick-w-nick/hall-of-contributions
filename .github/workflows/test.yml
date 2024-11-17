@@ -17,3 +17,4 @@ jobs:
         uses: ./  # Relative path to your local action directory
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          configuration_file: '.github/hall-of-contributions.json'
