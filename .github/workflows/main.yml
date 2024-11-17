@@ -22,6 +22,9 @@ jobs:
       - name: Build the action
         run: npm run build
       
+      - name: debug
+        run: ls -la
+      
       - name: Run Local Image Updater Action
         uses: ./hall-of-contributions  # Reference the local action
         with:
