@@ -36,11 +36,7 @@ async function run() {
         
         console.log('running action');
         
-        
-        const configurationFilePath = core.getInput('configuration_file');
-        console.log('config env path', process.env.CONFIGURATION_FILE);
-        
-        console.log('configuration file path:', configurationFilePath);
+        const configurationFilePath = process.env.CONFIGURATION_FILE_PATH || '';
         
         const configuration = getConfiguration(configurationFilePath);
         console.log('configuration', configuration);
