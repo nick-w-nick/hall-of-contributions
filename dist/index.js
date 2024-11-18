@@ -64,7 +64,7 @@ async function generateWidgets(configuration, octokit) {
             core.setFailed(`Widget ${entry.name} not found`);
             return;
         }
-        const generatedWidgets = widget.generate({ octokit, configuration: entry.options }); // TODO: fix any
+        const generatedWidgets = widget.generate({ octokit, configuration: entry }); // TODO: fix any
         return generatedWidgets;
     });
     const generatedWidgets = await Promise.all(widgetPromises);
