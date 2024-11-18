@@ -28,6 +28,9 @@ function insertWidgets(readmeData, widgets) {
     return updatedReadme;
 }
 ;
+// function convertBase64ToString(base64: string): string {
+//     return Buffer.from(base64, 'base64').toString('utf-8');
+// };
 async function generateWidgets(configuration, octokit) {
     const widgetPromises = configuration.map(async (entry) => {
         const widget = widgets.widgets[entry.name];
@@ -68,10 +71,13 @@ async function run() {
             owner,
             repo,
             path: configurationFilePath,
+            mediaType: {
+                format: 'json',
+            },
         });
-        // @ts-ignore
-        console.log('config data:', JSON.stringify(configuration.data.content, null, 2));
-        const configurationData = JSON.parse(configuration.data.toString() || '[]');
+        console.log('configuration state:', JSON.stringify(configuration.data, null, 2));
+        const configurationFileContent = configuration.data.toString();
+        const configurationData = JSON.parse(configurationFileContent || '[]');
         if (!configurationData || !Array.isArray(configurationData)) {
             core.setFailed('Invalid configuration file');
             return;
