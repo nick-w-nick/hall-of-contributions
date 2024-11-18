@@ -23,10 +23,6 @@ runs:
       shell: bash
       run: npm install  # Install dependencies for your action (e.g., @actions/core)
     
-    - name: Build the action
-      shell: bash
-      run: npm run build  # Build the action (e.g., TypeScript to JavaScript)
-    
     - name: Run custom image update logic
       shell: bash
       run: node dist/index.js  # Run the custom script to modify files like README.md
