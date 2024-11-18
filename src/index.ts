@@ -13,7 +13,7 @@ function getWidgetImageElements(widgets: Widget[]) {
         
         return `
             <a href="${href}" target="_blank" rel="noopener noreferrer">
-                <img id="${id}" src="data:image/svg+xml,${encodeURIComponent(svg)}" />
+                <img id="${id}" src="data:image/png;base64,${Buffer.from(encodeURIComponent(svg)).toString('base64')}" />
             </a>
         `;
     });
