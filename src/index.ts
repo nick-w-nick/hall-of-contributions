@@ -183,7 +183,10 @@ async function run() {
             await uploadImage(octokit.rest, owner, repo, Buffer.from(widget.svg).toString('base64'), `${widget.id}.svg`);
         });
         
-        await Promise.all(imageUploadPromises);
+        for (const promise of imageUploadPromises) {
+            await promise; 
+        }
+        
         const updatedReadme = insertWidgets(readmeData, widgets);
         
         console.log('Updated README.md:', updatedReadme);
