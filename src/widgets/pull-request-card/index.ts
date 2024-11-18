@@ -9,10 +9,16 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
         configuration,
     } = parameters;
     
+    console.log('configuration', configuration);
+    
+    
     const {
         username,
         numberOfCards = 5,
     } = configuration?.options;
+    
+    console.log(`Generating pull request cards for ${username}`);
+    
     
     const pullRequests = await github.getPullRequests(octokit, { author: username, page: 1, perPage: numberOfCards });
     const widgets = pullRequests.map((pullRequest) => PullRequestCard(pullRequest));

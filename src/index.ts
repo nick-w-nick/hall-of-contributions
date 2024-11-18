@@ -80,7 +80,7 @@ async function generateWidgets(configuration: WidgetConfigurationEntry[], octoki
             return;
         }
         
-        const generatedWidgets = widget.generate({ octokit, configuration: entry.options as any }); // TODO: fix any
+        const generatedWidgets = widget.generate({ octokit, configuration: entry as any }); // TODO: fix any
         return generatedWidgets;
     });
     
