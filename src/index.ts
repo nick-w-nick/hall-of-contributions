@@ -113,7 +113,7 @@ async function uploadImage(octokit: any, owner: string, repo: string, base64Imag
         await octokit.repos.createOrUpdateFileContents({
             owner,
             repo,
-            content: base64ImageData.split(',')[1],
+            content: base64ImageData,
             path: `.github/hall-of-contributions/images/${imageName}`,
             message: `hall-of-contributions: Upload ${imageName}`,
         });
