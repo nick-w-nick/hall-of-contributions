@@ -97,7 +97,7 @@ async function run() {
         }
         console.log('Using the following configuration:', JSON.stringify(configuration, null, 2));
         const readmeData = readme.data.toString();
-        const widgets = await generateWidgets(configuration, octokit);
+        const widgets = await generateWidgets(configuration, octokit.rest);
         const updatedReadme = insertWidgets(readmeData, widgets);
         console.log('Updating README.md with new widgets');
         await octokit.rest.repos.createOrUpdateFileContents({
