@@ -82,6 +82,9 @@ async function run() {
             return;
         }
         
+        console.log('readme state:', readme.data.toString());
+        
+        
         // TODO: if the configuration file does not exist and one was not provided,
         // create a default configuration and fail the action with a message telling the user to add configuration options
         const configuration = await octokit.rest.repos.getContent({
@@ -89,6 +92,9 @@ async function run() {
             repo,
             path: configurationFilePath,
         });
+        
+        console.log('config data:', configuration.data.toString());
+        
         
         const configurationData = JSON.parse(configuration.data.toString() || '[]') as WidgetConfigurationEntry[];
         if (!configurationData || !Array.isArray(configurationData)) {
