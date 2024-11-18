@@ -75,21 +75,23 @@ async function run() {
         const { owner, repo } = github.context.repo;
         
         console.log(`Fetching current state of README.md for ${owner}/${repo}`);
-        const readme = await octokit.rest.repos.getContent({
+        const rawReadme = await octokit.rest.repos.getContent({
             owner,
             repo,
             path: 'README.md',
-            mediaType: {
-                format: 'raw',
-            },
         });
         
-        if (!readme) {
+        if (!rawReadme) {
             core.setFailed('Failed to fetch README.md');
             return;
         }
         
-        console.log('readme state:', JSON.stringify(readme.data, null, 2));
+        const {
+            content: readmeContent,
+            sha: readmeSha,
+        } = rawReadme.data as { content: string, sha: string };
+        
+        const readmeData = Buffer.from(readmeContent, 'base64').toString('utf-8');
         
         
         // TODO: if the configuration file does not exist and one was not provided,
@@ -103,9 +105,6 @@ async function run() {
             },
         });
         
-        console.log('configuration state:', JSON.stringify(configuration.data, null, 2));
-        
-        
         const configurationFileContent = configuration.data.toString();
         const configurationData = JSON.parse(configurationFileContent || '[]') as WidgetConfigurationEntry[];
         if (!configurationData || !Array.isArray(configurationData)) {
@@ -115,7 +114,6 @@ async function run() {
         
         console.log('Using the following configuration:', JSON.stringify(configurationData, null, 2));
         
-        const readmeData = readme.data.toString();
         const widgets = await generateWidgets(configurationData, octokit.rest);
         const updatedReadme = insertWidgets(readmeData, widgets);
         
@@ -126,6 +124,7 @@ async function run() {
             content: Buffer.from(updatedReadme).toString('base64'),
             message: 'hall-of-contributions: Update README.md',
             path: 'README.md',
+            sha: readmeSha,
         });
         console.log('Successfully updated README.md');
     } catch (error) {
