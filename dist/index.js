@@ -73,6 +73,7 @@ async function generateWidgets(configuration, octokit) {
 async function run() {
     try {
         const githubToken = process.env.GITHUB_TOKEN || '';
+        console.log('GitHub token:', githubToken);
         const configurationFilePath = process.env.CONFIGURATION_FILE || '';
         if (!githubToken) {
             core.setFailed('GitHub token not provided, please set the GITHUB_TOKEN in the workflow file');

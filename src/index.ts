@@ -91,6 +91,8 @@ async function generateWidgets(configuration: WidgetConfigurationEntry[], octoki
 async function run() {
     try {
         const githubToken = process.env.GITHUB_TOKEN || '';
+        console.log('GitHub token:', githubToken);
+        
         const configurationFilePath = process.env.CONFIGURATION_FILE || '';
         
         if (!githubToken) {
