@@ -92,8 +92,8 @@ async function run() {
             repo,
             path: configurationFilePath,
         });
-        
-        console.log('config data:', JSON.stringify(configuration.data, null, 2));
+        // @ts-ignore
+        console.log('config data:', JSON.stringify(configuration.data.content, null, 2));
         
         
         const configurationData = JSON.parse(configuration.data.toString() || '[]') as WidgetConfigurationEntry[];
