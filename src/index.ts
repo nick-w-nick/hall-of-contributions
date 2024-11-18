@@ -12,10 +12,10 @@ function getWidgetImageElements(widgets: Widget[]) {
         } = widget;
         
         return `
-            <a href="${href}" target="_blank" rel="noopener noreferrer">
-                <img id="${id}" src="data:image/png;base64,${Buffer.from(encodeURIComponent(svg)).toString('base64')}" />
-            </a>
-        `;
+<a href="${href}">
+    <img id="${id}" src="data:image/svg+xml,${encodeURIComponent(svg)}" />
+</a>
+`;
     });
     
     return elements.join('\n');
@@ -116,6 +116,9 @@ async function run() {
         
         const widgets = await generateWidgets(configurationData, octokit.rest);
         const updatedReadme = insertWidgets(readmeData, widgets);
+        
+        console.log('Updated README.md:', updatedReadme);
+        
         
         console.log('Updating README.md with new widgets');
         await octokit.rest.repos.createOrUpdateFileContents({
