@@ -44,6 +44,46 @@ async function generateWidgets(configuration, octokit) {
     const generatedWidgets = await Promise.all(widgetPromises);
     return generatedWidgets.flat().filter((widget) => widget !== undefined);
 }
+async function clearTempImages(octokit, owner, repo, path = '.github/hall-of-contributions/images') {
+    try {
+        const { data: contents } = await octokit.repos.getContent({
+            owner,
+            repo,
+            path,
+        });
+        console.log('temp file dir contents:', contents);
+        //   for (const file of contents) {
+        //     await octokit.repos.deleteFile({
+        //       owner,
+        //       repo,
+        //       path: file.path,
+        //       message: `Deleting old image: ${file.name}`,
+        //       sha: file.sha, // Required for deletion
+        //       branch,
+        //     });
+        //   }
+        //   console.log('Cleared the temp_images directory');
+    }
+    catch (error) {
+        console.error('Error clearing temp images:', error);
+    }
+}
+// Function to upload the image to the 'temp_images' folder
+//   async function uploadImage(octokit, owner, repo, base64ImageData, imageName, branch) {
+//     try {
+//       const result = await octokit.repos.createOrUpdateFileContents({
+//         owner,
+//         repo,
+//         path: `temp_images/${imageName}`, // Path where image will be stored
+//         message: `Upload ${imageName} image`,
+//         content: base64ImageData.split(',')[1], // Extract base64 content (remove "data:image/..." prefix)
+//         branch, // Specify the branch to upload the image
+//       });
+//       console.log(`Uploaded image to ${result.data.content.download_url}`);
+//     } catch (error) {
+//       core.setFailed(`Error uploading image: ${error.message}`);
+//     }
+//   }
 async function run() {
     try {
         const githubToken = process.env.GITHUB_TOKEN || '';
@@ -83,6 +123,7 @@ async function run() {
             return;
         }
         console.log('Using the following configuration:', JSON.stringify(configurationData, null, 2));
+        await clearTempImages(octokit.rest, owner, repo);
         const widgets = await generateWidgets(configurationData, octokit.rest);
         const updatedReadme = insertWidgets(readmeData, widgets);
         console.log('Updated README.md:', updatedReadme);

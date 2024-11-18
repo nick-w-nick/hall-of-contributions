@@ -3,6 +3,7 @@
         "name": "pull-request-card",
         "elementId": "pull-request-card",
         "options": {
+            "username": "nick-w-nick",
             "numberOfCards": 5
         }
     }
