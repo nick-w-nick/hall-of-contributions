@@ -1,35 +1,6 @@
 import core from '@actions/core';
 import github from '@actions/github';
-import { existsSync, readFileSync } from 'fs';
-import { resolve } from 'path';
 import widgets from './widgets/index.js';
-// TODO: if the configuration file does not exist and one was not provided,
-// create a default configuration and fail the action with a message telling the user to add configuration optons
-function getConfiguration(path) {
-    try {
-        const filePath = resolve(process.cwd(), path);
-        console.log(`Reading configuration file from path: ${filePath}`);
-        if (existsSync(filePath)) {
-            const fileData = readFileSync(filePath, 'utf8').toString();
-            // TODO: use zod to validate the configuration file schema
-            if (!fileData) {
-                console.error('Invalid configuration file schema');
-                return undefined;
-            }
-            // TODO: fail if the configuration file is empty or has no valid widget entries
-            console.log('Found configuration file at path:', filePath);
-            return JSON.parse(fileData);
-        }
-        else {
-            console.error(`Configuration file not found at path: ${filePath}`);
-        }
-    }
-    catch (error) {
-        console.error(`Error reading configuration file: ${error}`);
-    }
-    return undefined;
-}
-;
 function getWidgetImageElements(widgets) {
     const elements = widgets.map((widget) => {
         const { id, svg, href, } = widget;
@@ -73,7 +44,6 @@ async function generateWidgets(configuration, octokit) {
 async function run() {
     try {
         const githubToken = process.env.GITHUB_TOKEN || '';
-        console.log('GitHub token:', githubToken);
         const configurationFilePath = process.env.CONFIGURATION_FILE || '';
         if (!githubToken) {
             core.setFailed('GitHub token not provided, please set the GITHUB_TOKEN in the workflow file');
@@ -91,14 +61,21 @@ async function run() {
             core.setFailed('Failed to fetch README.md');
             return;
         }
-        const configuration = getConfiguration(configurationFilePath);
-        if (!configuration) {
+        // TODO: if the configuration file does not exist and one was not provided,
+        // create a default configuration and fail the action with a message telling the user to add configuration options
+        const configuration = await octokit.rest.repos.getContent({
+            owner,
+            repo,
+            path: configurationFilePath,
+        });
+        const configurationData = JSON.parse(configuration.data.toString() || '[]');
+        if (!configurationData || !Array.isArray(configurationData)) {
             core.setFailed('Invalid configuration file');
             return;
         }
-        console.log('Using the following configuration:', JSON.stringify(configuration, null, 2));
+        console.log('Using the following configuration:', JSON.stringify(configurationData, null, 2));
         const readmeData = readme.data.toString();
-        const widgets = await generateWidgets(configuration, octokit.rest);
+        const widgets = await generateWidgets(configurationData, octokit.rest);
         const updatedReadme = insertWidgets(readmeData, widgets);
         console.log('Updating README.md with new widgets');
         await octokit.rest.repos.createOrUpdateFileContents({
