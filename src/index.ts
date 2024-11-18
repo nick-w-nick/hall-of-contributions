@@ -113,7 +113,6 @@ async function run() {
             return;
         }
         
-        
         const configuration = getConfiguration(configurationFilePath);
         if (!configuration) {
             core.setFailed('Invalid configuration file');
