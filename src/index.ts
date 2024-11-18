@@ -82,7 +82,7 @@ async function run() {
             return;
         }
         
-        console.log('readme state:', readme.data.toString());
+        console.log('readme state:', JSON.stringify(readme.data, null, 2));
         
         
         // TODO: if the configuration file does not exist and one was not provided,
@@ -93,7 +93,7 @@ async function run() {
             path: configurationFilePath,
         });
         
-        console.log('config data:', configuration.data.toString());
+        console.log('config data:', JSON.stringify(configuration.data, null, 2));
         
         
         const configurationData = JSON.parse(configuration.data.toString() || '[]') as WidgetConfigurationEntry[];

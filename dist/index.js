@@ -61,7 +61,7 @@ async function run() {
             core.setFailed('Failed to fetch README.md');
             return;
         }
-        console.log('readme state:', readme.data.toString());
+        console.log('readme state:', JSON.stringify(readme.data, null, 2));
         // TODO: if the configuration file does not exist and one was not provided,
         // create a default configuration and fail the action with a message telling the user to add configuration options
         const configuration = await octokit.rest.repos.getContent({
@@ -69,7 +69,7 @@ async function run() {
             repo,
             path: configurationFilePath,
         });
-        console.log('config data:', configuration.data.toString());
+        console.log('config data:', JSON.stringify(configuration.data, null, 2));
         const configurationData = JSON.parse(configuration.data.toString() || '[]');
         if (!configurationData || !Array.isArray(configurationData)) {
             core.setFailed('Invalid configuration file');
