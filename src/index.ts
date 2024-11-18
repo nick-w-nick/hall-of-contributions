@@ -79,6 +79,9 @@ async function run() {
             owner,
             repo,
             path: 'README.md',
+            mediaType: {
+                format: 'raw',
+            },
         });
         
         if (!readme) {
@@ -96,7 +99,7 @@ async function run() {
             repo,
             path: configurationFilePath,
             mediaType: {
-                format: 'json',
+                format: 'raw',
             },
         });
         
