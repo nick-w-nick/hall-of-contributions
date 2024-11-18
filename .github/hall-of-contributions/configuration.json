@@ -1,0 +1,9 @@
+[
+    {
+        "name": "pull-request-card",
+        "elementId": "pull-request-card",
+        "options": {
+            "numberOfCards": 5
+        }
+    }
+]

@@ -6,8 +6,8 @@ inputs:
     required: true
   configuration_file:
     description: 'Configuration file for the action'
-    required: true
-    default: '.github/hall-of-contributions.json'
+    required: false
+    default: '.github/hall-of-contributions/configuration.json'
 runs:
   using: 'composite'
   steps:

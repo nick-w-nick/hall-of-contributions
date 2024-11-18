@@ -1,14 +1,18 @@
+import type { Octokit } from "@octokit/rest";
+import { Configuration as PullRequestCardConfiguration } from "./pull-request-card/models.js";
+
 export interface Widget {
     id: string;
     svg: string;
     href: string;
 }
 
-interface WidgetConfigurationOptions {
-    elementId: string;
+export interface WidgetConfigurationEntry {
+    name: string;
+    options: unknown;
 }
 
-export interface ConfigurationEntry {
-    widgetName: string;
-    options: WidgetConfigurationOptions;
+export interface WidgetParameters<WidgetConfiguration> {
+    octokit: Octokit;
+    configuration: WidgetConfiguration;
 }
