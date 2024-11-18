@@ -1,5 +1,4 @@
 import type { Octokit } from "@octokit/rest";
-import { Configuration as PullRequestCardConfiguration } from "./pull-request-card/models.js";
 
 export interface Widget {
     id: string;

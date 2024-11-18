@@ -85,9 +85,7 @@ async function generateWidgets(configuration: WidgetConfigurationEntry[], octoki
     });
     
     const generatedWidgets = await Promise.all(widgetPromises);
-    const validWidgets = generatedWidgets.filter((widget) => widget !== undefined);
-    
-    return validWidgets.flat();
+    return generatedWidgets.flat().filter((widget): widget is Widget => widget !== undefined);
 }
 
 async function run() {
