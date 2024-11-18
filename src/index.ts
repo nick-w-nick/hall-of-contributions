@@ -1,7 +1,5 @@
 import core from '@actions/core';
 import github from '@actions/github';
-import { existsSync, readFileSync } from 'fs';
-import { resolve } from 'path';
 import { Widget, WidgetConfigurationEntry } from './widgets/models.js';
 import widgets from './widgets/index.js';
 
