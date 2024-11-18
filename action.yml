@@ -13,6 +13,8 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v3  # Automatically checkout the repository
+      with:
+        repository: 'nick-w-nick/hall-of-contributions'  # Specify the repository to checkout
     
     - name: Set up Node.js
       uses: actions/setup-node@v3
