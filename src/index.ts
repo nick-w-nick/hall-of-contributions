@@ -7,13 +7,12 @@ function getWidgetImageElements(widgets: Widget[]) {
     const elements = widgets.map((widget) => {
         const {
             id,
-            svg,
             href,
         } = widget;
         
         return `
 <a href="${href}">
-    <img id="${id}" src="data:image/svg+xml,${encodeURIComponent(svg)}" />
+    <img id="${id}" src=".github/hall-of-contributions/images/${id}.svg" />
 </a>
 `;
     });
@@ -83,8 +82,11 @@ async function clearTempImages(octokit: any, owner: string, repo: string, path: 
     //     });
     //   }
     //   console.log('Cleared the temp_images directory');
-    } catch (error) {
-        console.error('Error clearing temp images:', error);
+    } catch (error: unknown) {
+        if (error instanceof Error && error.message === 'Not Found') {
+            console.log('No temp_images directory found, will be created automatically');
+            return;
+        }
     }
   }
   
@@ -105,6 +107,20 @@ async function clearTempImages(octokit: any, owner: string, repo: string, path: 
 //       core.setFailed(`Error uploading image: ${error.message}`);
 //     }
 //   }
+
+async function uploadImage(octokit: any, owner: string, repo: string, base64ImageData: string, imageName: string): Promise<void> {
+    try {
+        await octokit.repos.createOrUpdateFileContents({
+            owner,
+            repo,
+            content: base64ImageData.split(',')[1],
+            path: `.github/hall-of-contributions/images/${imageName}`,
+            message: `hall-of-contributions: Upload ${imageName}`,
+        });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+    }
+}
 
 async function run() {
     try {
@@ -162,6 +178,12 @@ async function run() {
         await clearTempImages(octokit.rest, owner, repo);
         
         const widgets = await generateWidgets(configurationData, octokit.rest);
+        
+        const imageUploadPromises = widgets.map(async (widget) => {
+            await uploadImage(octokit.rest, owner, repo, Buffer.from(widget.svg).toString('base64'), `${widget.id}.svg`);
+        });
+        
+        await Promise.all(imageUploadPromises);
         const updatedReadme = insertWidgets(readmeData, widgets);
         
         console.log('Updated README.md:', updatedReadme);
