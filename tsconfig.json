@@ -14,7 +14,7 @@
         "noImplicitReturns": true,
         "skipLibCheck": true,
     },
-    "include": ["src", "src/api"],
+    "include": ["src", "api"],
     "exclude": [
         "node_modules",
         "dist",
