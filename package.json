@@ -26,6 +26,7 @@
     "devDependencies": {
         "@octokit/types": "^13.6.1",
         "@types/node": "^18.18.0",
+        "@vercel/node": "^3.2.25",
         "dotenv": "^16.4.5",
         "nodemon": "^3.1.7",
         "ts-node": "^10.9.2",
