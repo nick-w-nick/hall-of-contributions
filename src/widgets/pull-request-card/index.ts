@@ -18,7 +18,12 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
     
     console.log(`Generating pull request cards for ${username}`);
     
-    const pullRequests = await github.getPullRequests(octokit, { author: username, page: 1, perPage: 5 });
+    const pullRequests = await github.getPullRequests(octokit, {
+        author: username,
+        page: 1,
+        perPage: pullRequestIndex === 0 ? 1 : pullRequestIndex
+    });
+    
     const selectedPullRequest = pullRequests[pullRequestIndex];
     
     const widget = PullRequestCard(selectedPullRequest);
