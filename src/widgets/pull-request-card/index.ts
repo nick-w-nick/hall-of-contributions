@@ -14,6 +14,8 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
         pullRequestIndex = 0,
     } = configuration?.options;
     
+    // TODO: update typing to force all options to come in as strings due
+    // to how query parameters are parsed
     const pullRequestIndexInt = parseInt(pullRequestIndex.toString(), 10);
     
     // TODO: Add pagination support when fetching more pull requests than are allowed per page
