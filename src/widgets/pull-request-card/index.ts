@@ -14,16 +14,18 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
         pullRequestIndex = 0,
     } = configuration?.options;
     
+    const pullRequestIndexInt = parseInt(pullRequestIndex.toString(), 10);
+    
     console.log(`Generating pull request cards for ${username}`);
     
     // TODO: Add pagination support when fetching more pull requests than are allowed per page
     const pullRequests = await github.getPullRequests(octokit, {
         author: username,
         page: 1,
-        perPage: pullRequestIndex === 0 ? 1 : pullRequestIndex
+        perPage: pullRequestIndexInt === 0 ? 1 : pullRequestIndexInt
     });
     
-    const selectedPullRequest = pullRequests[pullRequestIndex];
+    const selectedPullRequest = pullRequests[pullRequestIndexInt];
     
     const widget = PullRequestCard(selectedPullRequest);
     return widget;
