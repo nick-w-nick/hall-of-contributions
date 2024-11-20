@@ -35,5 +35,9 @@ export default async function handler(req: WidgetRequest<Widgets.PullRequestCard
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Cache-Control', 'no-cache');
     
-    return res.status(200).send(widget);
+    return res.status(200).send(`
+        <svg width="425" height="90" xmlns="http://www.w3.org/2000/svg">
+            ${widget}
+        </svg>
+    `);
 }
