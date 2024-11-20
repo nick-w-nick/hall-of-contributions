@@ -1,7 +1,8 @@
 import PullRequestCard from './pull-request-card/index.js';
+import { Widgets } from './models.js';
 
 const widgets = {
-    'pull-request-card': PullRequestCard,
+    [Widgets.PullRequestCard]: PullRequestCard,
 };
 
 export default {

@@ -1,9 +1,5 @@
-import {
-    getPullRequests,
-    getAllPullRequests,
-} from './github.js';
+import github from './github/index.js';
 
 export default {
-    getPullRequests,
-    getAllPullRequests,
+    github,
 };
