@@ -1,10 +1,7 @@
-import type { VercelRequest, VercelRequestQuery, VercelResponse } from '@vercel/node'
-import { WidgetConfiguration, Widgets } from '../../src/widgets/models.js';
+import type { VercelResponse } from '@vercel/node'
+import type { WidgetRequest } from '../widgets/models.js';
+import { Widgets } from '../../src/widgets/models.js';
 import { generateWidget } from '../../src/index.js';
-
-interface WidgetRequest<T extends Widgets> extends VercelRequest {
-    query: VercelRequestQuery & WidgetConfiguration[T]['options'];
-}
 
 export default async function handler(req: WidgetRequest<Widgets.PullRequestCard>, res: VercelResponse) {
     const {
