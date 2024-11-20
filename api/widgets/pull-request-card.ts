@@ -1,0 +1,39 @@
+import type { VercelRequest, VercelRequestQuery, VercelResponse } from '@vercel/node'
+import { WidgetConfiguration, Widgets } from '../../src/widgets/models.js';
+import { generateWidget } from '../../src/index.js';
+
+interface WidgetRequest<T extends Widgets> extends VercelRequest {
+    query: VercelRequestQuery & WidgetConfiguration[T]['options'];
+}
+
+export default async function handler(req: WidgetRequest<Widgets.PullRequestCard>, res: VercelResponse) {
+    const {
+        username,
+        pullRequestIndex = 0,
+    } = req.query;
+    
+    if (req.method !== 'GET') {
+        return res.status(405).json({
+            message: 'Method Not Allowed',
+        });
+    }
+    
+    if (!username) {
+        return res.status(400).json({
+            message: 'username is required',
+        });
+    }
+    
+    const widget = await generateWidget(Widgets.PullRequestCard, {
+        name: Widgets.PullRequestCard,
+        options: {
+            username,
+            pullRequestIndex,
+        },
+    });
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'no-cache');
+    
+    return res.status(200).send(widget);
+}
