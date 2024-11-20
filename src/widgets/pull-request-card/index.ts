@@ -27,7 +27,7 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
     const pullRequests = await github.getPullRequests(octokit, {
         author: username,
         page: 1,
-        perPage: pullRequestIndexInt === 0 ? 1 : pullRequestIndexInt
+        perPage: pullRequestIndexInt === 0 ? 1 : pullRequestIndexInt + 1,
     });
     
     console.log('pullRequests', pullRequests);
