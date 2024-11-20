@@ -37,7 +37,7 @@ export default async function handler(req: WidgetRequest<Widgets.PullRequestCard
     
     return res.status(200).send(`
         <svg width="425" height="90" xmlns="http://www.w3.org/2000/svg">
-            ${widget}
+            ${widget.svg}
         </svg>
     `);
 }
