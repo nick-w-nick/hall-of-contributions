@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "functions": {
+        "api/**/*.ts": {
+            "memory": 128,
+            "maxDuration": 10
+        }
+    },
+    "redirects": [
+        {
+            "source": "/(src.*)+",
+            "destination": "https://github.com/nick-w-nick/hall-of-contributions"
+        }
+    ]
+}

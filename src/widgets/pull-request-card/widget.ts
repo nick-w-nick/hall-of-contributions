@@ -63,7 +63,6 @@ function PullRequestCard(data: Data): Widget {
         `
     return {
         href: url,
-        id: `pull-request-${number}`,
         svg,
     };
 };

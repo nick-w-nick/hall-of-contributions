@@ -1,7 +1,15 @@
-import type { Octokit } from "@octokit/rest";
+import type { Octokit } from '@octokit/rest';
+import { Configuration as PullRequestConfiguration } from './pull-request-card/models.js';
+
+export enum Widgets {
+    PullRequestCard = 'pull-request-card',
+}
+
+export interface WidgetConfiguration {
+    [Widgets.PullRequestCard]: PullRequestConfiguration;
+}
 
 export interface Widget {
-    id: string;
     svg: string;
     href: string;
 }

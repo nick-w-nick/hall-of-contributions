@@ -1,12 +1,28 @@
-const formatPullRequest = (pullRequest) => {
-    const { title, html_url, repository_url, state, number, pull_request, comments = 0, created_at, 
-    // updated_at,
-    closed_at, } = pullRequest;
+import type { Octokit, RestEndpointMethodTypes } from '@octokit/rest';
+import { PullRequest } from './models.js';
+
+const formatPullRequest = (pullRequest: RestEndpointMethodTypes['search']['issuesAndPullRequests']['response']['data']['items'][0]): PullRequest => {
+    const {
+        title,
+        html_url,
+        repository_url,
+        state,
+        number,
+        pull_request,
+        comments = 0,
+        created_at,
+        // updated_at,
+        closed_at,
+    } = pullRequest;
+    
     let isMerged = false;
+    
     if (state === 'closed' && pull_request?.merged_at) {
         isMerged = true;
     }
+    
     const repositorySlug = repository_url.replace('https://api.github.com/repos/', '');
+    
     return {
         repositoryUrl: `https://github.com/${repositorySlug}`,
         repositorySlug,
@@ -19,7 +35,8 @@ const formatPullRequest = (pullRequest) => {
         closedAt: closed_at,
     };
 };
-export const getPullRequests = async (octokit, { author, page = 1, perPage = 15 }) => {
+
+const getPullRequests = async (octokit: Octokit, { author, page = 1, perPage = 15 }: { author: string, page: number, perPage: number }) => {
     const data = await octokit.search.issuesAndPullRequests({
         q: `author:${author} type:pr`,
         order: 'desc',
@@ -27,15 +44,22 @@ export const getPullRequests = async (octokit, { author, page = 1, perPage = 15 
         page: page,
         per_page: perPage,
     });
+    
     const formattedPullRequests = data.data.items.map((pr) => formatPullRequest(pr));
     return formattedPullRequests;
 };
-export const getAllPullRequests = async (octokit, { author }) => {
+
+const getAllPullRequests = async (octokit: Octokit, { author }: { author: string }) => {
     const data = await octokit.paginate({
         method: 'GET',
         url: `/search/issues?q=${encodeURIComponent(`author:${author} type:pr`)}`,
-    });
+    }) as RestEndpointMethodTypes['search']['issuesAndPullRequests']['response']['data']['items'];
+    
     const formattedPullRequests = data.map((pr) => formatPullRequest(pr));
     return formattedPullRequests;
 };
-//# sourceMappingURL=github.js.map
+
+export default {
+    getPullRequests,
+    getAllPullRequests,
+};

@@ -1,29 +1,34 @@
 import PullRequestCard from './widget.js';
-import github from '../../data/index.js';
+import github from '../../data/github/index.js';
 import { type Widget, WidgetParameters } from '../models.js';
 import { Configuration } from './models.js';
 
-async function generate(parameters: WidgetParameters<Configuration>): Promise<Widget[]> {
+async function generate(parameters: WidgetParameters<Configuration>): Promise<Widget> {
     const {
         octokit,
         configuration,
     } = parameters;
     
-    console.log('configuration', configuration);
-    
-    
     const {
         username,
-        numberOfCards = 5,
+        pullRequestIndex = 0,
     } = configuration?.options;
     
-    console.log(`Generating pull request cards for ${username}`);
+    // TODO: update typing to force all options to come in as strings due
+    // to how query parameters are parsed
+    const pullRequestIndexInt = parseInt(pullRequestIndex.toString(), 10);
     
+    // TODO: Add pagination support when fetching more pull requests than are allowed per page
+    const pullRequests = await github.getPullRequests(octokit, {
+        author: username,
+        page: 1,
+        perPage: pullRequestIndexInt === 0 ? 1 : pullRequestIndexInt + 1,
+    });
     
-    const pullRequests = await github.getPullRequests(octokit, { author: username, page: 1, perPage: numberOfCards });
-    const widgets = pullRequests.map((pullRequest) => PullRequestCard(pullRequest));
+    const selectedPullRequest = pullRequests[pullRequestIndexInt];
     
-    return widgets;
+    const widget = PullRequestCard(selectedPullRequest);
+    return widget;
 }
 
 export default {
