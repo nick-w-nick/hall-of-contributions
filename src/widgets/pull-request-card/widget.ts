@@ -27,7 +27,7 @@ function PullRequestCard(data: Data): Widget {
                     .text-secondary:hover { fill: #58a6ff; }
                     .merged-icon { fill: ${colors.merged}; }
                     .open-icon { fill: ${colors.open}; }
-                    .comment-icon { fill: #${colors.comment}; }
+                    .comment-icon { fill: #{colors.comment}; }
                 </style>
                 
                 <!-- Background -->
