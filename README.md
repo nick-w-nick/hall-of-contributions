@@ -27,6 +27,8 @@ To render each pull request individually, you can use the `pullRequestIndex` par
 ![](https://hall-of-contributions.vercel.app/api/widgets/pull-request-card?username=YOUR_USERNAME&pullRequestIndex=0)
 ```
 
+> This value defaults to `0`, so if you only want to show one pull request, you can omit the parameter entirely.
+
 Simply increment the value to show the next pull request in your feed. For example, to show the three most recent pull requests:
 
 ```md
