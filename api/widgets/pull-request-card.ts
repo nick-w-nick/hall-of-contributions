@@ -29,8 +29,12 @@ export default async function handler(req: WidgetRequest<Widgets.PullRequestCard
         },
     });
     
+    const oneDayInSeconds = 1 * 24 * 60 * 60;
+    const threeDaysInSeconds = 3 * 24 * 60 * 60;
+    
+    res.setHeader('Cache-Control', `max-age=${threeDaysInSeconds}, s-maxage=${threeDaysInSeconds}, stale-while-revalidate=${oneDayInSeconds}`);
     res.setHeader('Content-Type', 'image/svg+xml');
-    res.setHeader('Cache-Control', 'no-cache');
+    
     
     return res.status(200).send(`
         <svg width="425" height="90" xmlns="http://www.w3.org/2000/svg">
