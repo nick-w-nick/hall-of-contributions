@@ -12,6 +12,7 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
     const {
         username,
         pullRequestIndex = 0,
+        query,
     } = configuration?.options;
     
     // TODO: update typing to force all options to come in as strings due
@@ -23,6 +24,7 @@ async function generate(parameters: WidgetParameters<Configuration>): Promise<Wi
         author: username,
         page: 1,
         perPage: pullRequestIndexInt === 0 ? 1 : pullRequestIndexInt + 1,
+        query,
     });
     
     const selectedPullRequest = pullRequests[pullRequestIndexInt];
