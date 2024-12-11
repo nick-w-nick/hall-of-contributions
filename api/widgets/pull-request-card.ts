@@ -7,6 +7,7 @@ export default async function handler(req: WidgetRequest<Widgets.PullRequestCard
     const {
         username,
         pullRequestIndex = 0,
+        query,
     } = req.query;
     
     if (req.method !== 'GET') {
@@ -26,6 +27,7 @@ export default async function handler(req: WidgetRequest<Widgets.PullRequestCard
         options: {
             username,
             pullRequestIndex,
+            query,
         },
     });
     
