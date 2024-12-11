@@ -36,3 +36,7 @@ Simply increment the value to show the next pull request in your feed. For examp
 ![](https://hall-of-contributions.vercel.app/api/widgets/pull-request-card?username=YOUR_USERNAME&pullRequestIndex=1)
 ![](https://hall-of-contributions.vercel.app/api/widgets/pull-request-card?username=YOUR_USERNAME&pullRequestIndex=2)
 ```
+
+### Parameters
+- `query` - The [GitHub search query](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to be used to fetch the pull requests. Will be appended to the default filter of `author:USERNAME type:pr`.
+  - Usage: `?query=language:javascript`
