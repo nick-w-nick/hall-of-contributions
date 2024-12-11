@@ -7,6 +7,7 @@ export interface Data extends PullRequest {
 export interface ConfigurationOptions {
     username: string;
     pullRequestIndex: number;
+    query?: string
 }
 
 export interface Configuration extends WidgetConfigurationEntry {
