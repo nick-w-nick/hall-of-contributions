@@ -36,9 +36,9 @@ const formatPullRequest = (pullRequest: RestEndpointMethodTypes['search']['issue
     };
 };
 
-const getPullRequests = async (octokit: Octokit, { author, page = 1, perPage = 15 }: { author: string, page: number, perPage: number }) => {
+const getPullRequests = async (octokit: Octokit, { author, page = 1, perPage = 15, queryFilter }: { author: string, page: number, perPage: number, queryFilter?: string }) => {
     const data = await octokit.search.issuesAndPullRequests({
-        q: `author:${author} type:pr`,
+        q: `author:${author} type:pr ${queryFilter || ''}`,
         order: 'desc',
         sort: 'created',
         page: page,
